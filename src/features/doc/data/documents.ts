@@ -31,6 +31,12 @@ function readMDXFile(filePath: string) {
  * `dir` (e.g. shared `props.ts`) are ignored — only category folders are read.
  */
 function getMDXData(dir: string) {
+  // The content folder may not exist (all doc categories removed); a missing
+  // folder means "no docs", not a build failure.
+  if (!fs.existsSync(dir)) {
+    return []
+  }
+
   const categoryDirs = fs
     .readdirSync(dir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())

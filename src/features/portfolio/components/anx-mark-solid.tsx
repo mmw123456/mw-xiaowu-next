@@ -96,7 +96,7 @@ export function AnxMarkSolid() {
   return (
     <motion.svg
       ref={ref}
-      className="h-auto w-full touch-manipulation overflow-visible [--pattern:color-mix(in_oklab,var(--foreground)_12%,var(--background))] [--side:color-mix(in_oklab,var(--foreground)_9%,var(--background))] [--stroke:color-mix(in_oklab,var(--foreground)_16%,var(--background))] dark:[--pattern:color-mix(in_oklab,var(--foreground)_20%,var(--background))] dark:[--side:color-mix(in_oklab,var(--foreground)_14%,var(--background))] dark:[--stroke:color-mix(in_oklab,var(--foreground)_26%,var(--background))]"
+      className="h-auto w-full touch-manipulation overflow-visible [--pattern:color-mix(in_oklab,var(--foreground)_12%,var(--background))] [--side:color-mix(in_oklab,var(--foreground)_9%,var(--background))] [--stroke:color-mix(in_oklab,var(--foreground)_16%,var(--background))] dark:[--pattern:color-mix(in_oklab,var(--foreground)_28%,var(--background))] dark:[--side:color-mix(in_oklab,var(--foreground)_20%,var(--background))] dark:[--stroke:color-mix(in_oklab,var(--foreground)_34%,var(--background))]"
       viewBox={`0 0 ${VIEW_WIDTH + DEPTH_X} ${VIEW_HEIGHT + DEPTH_Y}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

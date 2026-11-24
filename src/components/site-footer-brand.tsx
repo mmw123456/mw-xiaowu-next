@@ -60,7 +60,7 @@ export function SiteFooterInteractiveLogotype() {
           >
             <path d={GLYPH_PATH} fill="url(#paint0_linear_1145_73)" />
             <path
-              className="stroke-foreground/10"
+              className="stroke-foreground/20"
               d={GLYPH_PATH}
               strokeWidth="2"
             />
@@ -81,7 +81,7 @@ export function SiteFooterInteractiveLogotype() {
                 <stop
                   offset="1"
                   stopColor="var(--foreground)"
-                  stopOpacity="0.18"
+                  stopOpacity="0.3"
                 />
               </motion.linearGradient>
             </defs>

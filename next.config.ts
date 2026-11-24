@@ -1,7 +1,5 @@
 import type { NextConfig } from "next"
 
-import { LEGACY_REDIRECTS } from "./src/config/legacy-redirects"
-
 const nextConfig: NextConfig = {
   /**
    * Stamped once per build and inlined. Reading the clock at render time would
@@ -84,8 +82,6 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Old-site URLs first: they must win over the page routes they shadow.
-      ...LEGACY_REDIRECTS,
       {
         source: "/wall-of-love",
         destination: "/testimonials",

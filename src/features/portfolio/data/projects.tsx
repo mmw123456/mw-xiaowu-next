@@ -33,8 +33,8 @@ export const PROJECTS: Project[] = [
   {
     id: "tutorial-videos",
     title: "教程视频",
-    summary: "已暂停，暂无更新。",
+    summary: "AI 项目中文教程，每周一、三、五更新。",
     skills: [],
-    description: `已暂停，暂无更新。`,
+    description: `把做过的 AI 项目写成中文教程和短视频：续聊包、周报事实分拣器，先验证有没有人需要再写代码。选题看评论区用户原话，痛点优先；简历、JD 相关内容不引用没有出处的数字，不承诺通过率。`,
   },
 ]
