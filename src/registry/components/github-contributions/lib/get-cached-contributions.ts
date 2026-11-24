@@ -8,7 +8,11 @@ type GitHubContributionsResponse = {
 
 export const getCachedContributions = unstable_cache(
   async (username: string) => {
-    const apiUrl = process.env.NEXT_PUBLIC_GITHUB_CONTRIBUTIONS_API_URL
+    // Default to the public jogruber API so a fresh deployment shows the graph
+    // without extra configuration; set the variable to point elsewhere.
+    const apiUrl =
+      process.env.NEXT_PUBLIC_GITHUB_CONTRIBUTIONS_API_URL ??
+      "https://github-contributions-api.jogruber.de/v4"
     // No contributions API configured — callers treat an empty list as
     // "nothing to show" rather than an error worth failing the page over.
     if (!apiUrl) {
