@@ -1,0 +1,35 @@
+{
+  "short_name": "MW小屋",
+  "name": "MW小屋",
+  "description": "记录做过的项目，任务进程等等。",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable-icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "/?utm_source=pwa",
+  "start_url": "/?utm_source=pwa",
+  "display": "standalone",
+  "scope": "/"
+}

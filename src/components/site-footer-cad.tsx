@@ -1,0 +1,181 @@
+import Link from "next/link"
+
+import { LICENSE, SOURCE_CODE_GITHUB_URL } from "@/config/site"
+import { getBuildInfo } from "@/lib/build-info"
+import { cn } from "@/lib/utils"
+import { GitHubIcon } from "@/components/icons"
+import { SiteFooterInteractiveLogotype } from "@/components/site-footer-brand"
+import { SOCIAL } from "@/features/portfolio/data/social-links"
+
+// Imported here rather than through `@/config/site`, which client components
+// pull in, to keep the manifest out of client bundles.
+import packageJson from "../../package.json"
+import { AnxMark } from "./anx-mark"
+
+const INSPIRED_BY = ["anxforever.cn"]
+
+// Not `SITE_INFO.url`: that follows `NEXT_PUBLIC_APP_URL` and would read the
+// local dev origin rather than the published host.
+const SITE_TITLE = "MW小屋"
+
+const SITE_SUBTITLE = packageJson.description
+
+/** Footer laid out as the title block of a technical drawing. */
+export function SiteFooterCad() {
+  const githubLink = SOCIAL.github
+
+  const build = getBuildInfo()
+
+  return (
+    <footer className="max-w-screen overflow-x-clip px-2">
+      <div className="mx-auto border-x group-has-data-[slot=layout-wide]/layout:container md:max-w-3xl">
+        <div className="screen-line-top screen-line-bottom screen-line-top-border before:z-1">
+          <div className="stripe-divider h-12" />
+        </div>
+
+        <div className="relative">
+          <div className="screen-line-bottom flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-4 py-3 font-mono text-sm">
+            <span className="font-medium">{SITE_TITLE}</span>
+            <span className="font-sans text-muted-foreground">
+              {SITE_SUBTITLE}
+            </span>
+          </div>
+
+          <dl className="grid grid-cols-2 gap-px bg-line font-mono md:grid-cols-4">
+            <Field label="Crafted by">
+              <a
+                className="link-underline"
+                href={githubLink.href}
+                target="_blank"
+                rel="noopener"
+              >
+                {SITE_TITLE}
+              </a>
+            </Field>
+
+            <Field label="Date">
+              <time dateTime={build.date}>{build.date}</time>
+            </Field>
+
+            <Field label="Deployed on">
+              <span className="font-sans" aria-hidden>
+                ▲{" "}
+              </span>
+              Vercel
+            </Field>
+
+            <Field label="Source code">
+              <a
+                className="link-underline"
+                href={SOURCE_CODE_GITHUB_URL}
+                target="_blank"
+                rel="noopener"
+              >
+                GitHub
+              </a>
+            </Field>
+
+            <Field label="License">
+              <a
+                className="link-underline"
+                href={LICENSE.url}
+                target="_blank"
+                rel="noopener"
+              >
+                {LICENSE.name}
+              </a>
+            </Field>
+
+            <Field label="Typeface">Geist</Field>
+
+            <Field className="col-span-2" label="Stack">
+              <ul className="flex flex-col gap-0.5">
+                <li>Next.js</li>
+              </ul>
+            </Field>
+
+            <Field className="col-span-2 md:col-span-4" label="Inspired by">
+              {/*
+                Cancelling the cell padding and repeating the parent's column
+                count and gap lands these columns on the same grid lines as the
+                cells above, rather than dividing the padded width.
+              */}
+              <ol className="-mx-4 grid grid-cols-2 gap-x-px gap-y-0.5 font-sans md:grid-cols-4">
+                {INSPIRED_BY.map((name, index) => (
+                  <li className="flex gap-2 px-4" key={name}>
+                    {/* Hidden: the list element already conveys the position. */}
+                    <span
+                      className="font-mono text-muted-foreground"
+                      aria-hidden
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <a
+                      className="link-underline"
+                      href={`https://${name}`}
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      {name}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </Field>
+          </dl>
+        </div>
+
+        <div className="screen-line-top h-4" />
+
+        <div className="screen-line-top screen-line-bottom flex items-center gap-3 screen-line-bottom-border px-4 py-3 text-muted-foreground">
+          <Link
+            href="/"
+            className="mr-auto text-muted-foreground transition-[color] hover:text-foreground"
+            aria-label="Home"
+          >
+            <AnxMark className="h-4" />
+          </Link>
+
+          <a
+            className="flex items-center transition-[color] hover:text-foreground"
+            href={githubLink.href}
+            target="_blank"
+            rel="noopener"
+            aria-label="GitHub Profile"
+          >
+            <GitHubIcon className="size-4" />
+          </a>
+        </div>
+      </div>
+
+      <SiteFooterInteractiveLogotype />
+
+      <div className="h-(--fade-bottom-height)" />
+      <div className="pb-[env(safe-area-inset-bottom,0)]" />
+    </footer>
+  )
+}
+
+function Field({
+  className,
+  label,
+  children,
+}: {
+  className?: string
+  label: string
+  children: React.ReactNode
+}) {
+  return (
+    <div
+      className={cn(
+        "flex min-w-0 flex-col gap-1 bg-background px-4 py-3",
+        className
+      )}
+    >
+      <dt className="text-[0.625rem]/4 font-medium tracking-wider text-muted-foreground uppercase">
+        {label}
+      </dt>
+      <dd className="text-sm">{children}</dd>
+    </div>
+  )
+}

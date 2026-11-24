@@ -1,0 +1,104 @@
+---
+title: StyleKit 工具怎么用：MCP、CLI、Skill 和更新方式
+description: 从网页选风格，到在 AI 编码工具里查风格、取设计资料、导出模板和检查代码。说明 MCP、CLI、Skill 各自做什么，公开资产覆盖范围，以及安装后的更新方式。
+createdAt: 2026-09-29
+updatedAt: 2026-10-27
+---
+
+选好一套网页风格之后，接下来常常要做几件重复的事：找设计参数、翻组件例子、把模板拷进项目，再检查生成的代码有没有偏离这套风格。StyleKit 把这些资料放在 [网站](https://stylekit.top) 上，也提供 MCP、命令行工具和配套 Skill，让 AI 编码工具可以按需读取。
+
+这三种入口做的事不一样：MCP 把能力接到支持 MCP 的编辑器或客户端里；CLI 适合在终端查询、导出或接进脚本；Skill 给 Agent 一套使用 StyleKit 的步骤。它们提供资料和接口，不会替你决定产品该怎么设计，也不会自动改写已经生成的项目代码。
+
+## 先看有哪些能力
+
+StyleKit 的 MCP 目前提供 9 个只读工具：
+
+- `stylekit_search_styles`：按关键词查找风格。
+- `stylekit_get_style`、`stylekit_get_style_tokens`：读取风格说明和设计参数。
+- `stylekit_get_component_recipe`、`stylekit_get_shadcn_install`：查看组件写法和主题安装命令。
+- `stylekit_get_implementation_brief`：汇总实现所需的风格说明、CSS、模板、组件示例、token 和规则。
+- `stylekit_list_assets`、`stylekit_get_asset`：搜索资产目录，并读取指定资产详情或许可允许提供的源码。
+- `stylekit_lint_code`：按风格规则检查代码中的类名，并返回原因和可用修复建议。
+
+比如，可以让 Agent 先查找「复古」风格，读取实现 brief 和按钮组件示例，再开始做页面；完成后用 `stylekit_lint_code` 检查类名是否与选定风格冲突。MCP 只负责按结构传入参数、返回结果，什么时候调用以及如何把结果用于项目，仍由客户端和 Agent 决定。
+
+StyleKit 资产目录会继续变化。**截至 2026-10-02，公开目录有 18 类、689 项资产**，覆盖风格、配色、字体、背景、渐变、阴影、动画、组件示例、设计规则、Prompt 和模板等。数量会随网站更新。
+
+目录记录和可导出的完整源码是两回事：其中 **36 套本站模板**可以导出完整项目文件；外部模板和受限资源会说明来源、许可或获取入口，不会伪装成可下载的完整源码。调用工具时应查看每项的可用状态和许可说明，再决定是否把内容放进自己的项目。
+
+## 按使用场景选择入口
+
+如果你希望在编辑器对话里直接问「找一个适合仪表盘的风格」「按这个风格给我按钮示例」，使用 MCP。项目配置一次后，支持 MCP 的客户端就能发现这些只读工具。
+
+如果你想在终端里查询目录、把结果保存成 JSON，或者在脚本中继续处理，使用 CLI。例如：
+
+```bash
+# 使用 npx 的在线更新检查
+npx -y --prefer-online stylekit-cli@latest assets --kind template --limit 10 --json
+npx -y --prefer-online stylekit-cli@latest asset template brutal-landing --json
+```
+
+CLI 也能查风格、输出实现 brief 和运行静态规则检查。`--json` 适合接到脚本或其他工具；模板只有在接口提供了完整项目源码时才会作为完整项目输出，缺少源码会明确报出状态。
+
+Skill 是给 Agent 的使用说明。它告诉 Agent 如何搜索资产、判断返回内容是否完整、按许可获取模板，以及怎样把模板安全地写入项目。它不提供另一份独立的资产库，也不会自动安装模板依赖或执行下载到的代码。
+
+## 安装后怎么获得更新
+
+### MCP
+
+在客户端的 MCP 配置里使用 `latest`，之后新启动服务器时会检查 npm 上的最新版本：
+
+```json
+{
+  "mcpServers": {
+    "stylekit": {
+      "command": "npx",
+      "args": ["-y", "--prefer-online", "stylekit-mcp@latest"]
+    }
+  }
+}
+```
+
+发布新版后，已经运行的 MCP 进程仍是旧版本；重启该服务器，客户端才会启动新版。`--prefer-online` 让 npx 优先向 npm 查询，避免长时间只复用本地缓存。
+
+### CLI
+
+按需运行时使用 `npx -y --prefer-online stylekit-cli@latest ...`，例如上面的资产查询命令。这样不用每次重新安装全局 CLI；每次启动时由 npm 获取当前可用版本。若把 CLI 固定安装到项目依赖中，则仍需要按项目自己的依赖更新流程升级。
+
+### Skill
+
+新安装可以运行：
+
+```bash
+npx skills@latest add AnxForever/stylekit-skill
+```
+
+已经安装旧版 Skill 的人先手动迁移一次：
+
+```bash
+npx skills@latest update stylekit
+```
+
+这次迁移由 Skills 安装器替换旧文件；如果你改过旧版 Skill，先另存这些改动。接入新版以后，自更新检查会保护本地修改。
+
+之后新版 Skill 会要求 Agent 在开始使用时，到已安装的 StyleKit Skill 目录运行更新检查。具体命令见 [Skill 使用说明](https://github.com/AnxForever/stylekit-skill/blob/main/SKILL.md) 和 [更新脚本源码](https://github.com/AnxForever/stylekit-skill/blob/main/scripts/update-skill.py)。
+
+检查会读取 GitHub 上的 `main`，校验文件哈希后更新，并且只管理 StyleKit Skill 自己的文件。默认最多每 24 小时检查一次；网络不可用时继续使用本地版本。如果发现用户改过 Skill 文件，会跳过整批更新，避免覆盖这些修改。可用 `--disable`、`--enable` 控制自动检查，用 `--force-check` 立即检查一次。
+
+这不是常驻后台更新：只有实际运行的 Agent 读取并遵循 Skill 里的步骤时，检查才会发生。不同客户端或 Agent 对 Skill 指令的执行方式可能不同，安装本身不能保证所有 Agent 都会自动运行脚本。即使 MCP、CLI 或 Skill 已更新，已经复制到项目里的组件和模板也不会自动改变。
+
+### 在线资产与离线回退
+
+工具连接网络时会优先读取 StyleKit 网站上的公开目录和远程模板；短时间缓存用于减少重复请求。网络不可用时，部分风格资料可以回退到随包附带的版本，结果会标出来源或回退状态。若某个远程模板没有拿到完整文件，工具会说明不可用，不会用一段不完整内容冒充完整项目。
+
+## 检查结果能说明什么
+
+`stylekit_lint_code` 是静态规则检查。以 `neo-brutalist` 为例，下面的圆角和阴影类名与该风格当前规则冲突：
+
+```html
+<div className="rounded-xl shadow-lg" />
+```
+
+检查可以指出被规则识别出的类名、原因和修复建议。若返回通过，只表示当前输入没有触发已实现的规则；它不能证明页面视觉效果好、无障碍达标或产品验收通过。规则没有覆盖的情况，也可能不会被报告。
+
+如果只想快速试用，可以从 [StyleKit 网站](https://stylekit.top) 浏览风格；需要把资料带进开发流程时，再根据自己的客户端选择 MCP、CLI 或 Skill。完整配置和源码分别在 [StyleKit 仓库](https://github.com/AnxForever/stylekit) 与 [stylekit-skill 仓库](https://github.com/AnxForever/stylekit-skill)。
