@@ -11,7 +11,7 @@ export { MAIN_NAV, MOBILE_NAV } from "./navigation"
  * Change this when a custom domain is attached — the Vercel project URL is
  * only the default.
  */
-export const SITE_DOMAIN = "mw-xiaowu.vercel.app"
+export const SITE_DOMAIN = "mw-xiaowu-next.vercel.app"
 
 export const SITE_INFO = {
   name: USER.displayName,
