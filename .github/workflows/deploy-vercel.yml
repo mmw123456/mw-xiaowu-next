@@ -27,3 +27,19 @@ jobs:
         run: npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Verify live site
+        run: |
+          set -e
+          URL="https://mw-xiaowu-next.vercel.app/"
+          for i in 1 2 3 4 5 6; do
+            code=$(curl -s -o /tmp/live.html -w '%{http_code}' "$URL" || echo 000)
+            echo "attempt $i -> $code"
+            if [ "$code" = "200" ]; then break; fi
+            sleep 5
+          done
+          test "$code" = "200" || { echo "FAIL: site not reachable"; exit 1; }
+          grep -q "MW小屋" /tmp/live.html || { echo "FAIL: missing 站名"; exit 1; }
+          grep -q "中国矿业大学" /tmp/live.html || { echo "FAIL: missing 学校"; exit 1; }
+          if grep -q "AnxForever" /tmp/live.html; then echo "FAIL: 残留 AnxForever"; exit 1; fi
+          echo "PASS live: $(wc -c < /tmp/live.html) bytes"
