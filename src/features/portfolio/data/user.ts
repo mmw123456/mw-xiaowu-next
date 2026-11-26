@@ -6,6 +6,8 @@ export const USER: User = {
   firstName: "MW",
   lastName: "",
   displayName: "MW小屋",
+  // 头像旁显示的名字，与站名（页脚 / PWA / OG 图）分开，站名仍是 MW小屋。
+  nickname: "腼腆小美",
   username: "mmw123456",
   bio: BIO,
   // Rendered as plain text, not markdown — keep these free of link syntax.

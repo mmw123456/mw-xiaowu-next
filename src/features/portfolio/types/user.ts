@@ -5,6 +5,12 @@ export type User = {
   lastName: string
   /** Preferred public-facing name */
   displayName: string
+  /**
+   * Nickname shown next to the avatar, in place of `displayName`. Use it when
+   * the name on the profile differs from the site name used in the title,
+   * footer, manifest and OG image. Falls back to `displayName` when omitted.
+   */
+  nickname?: string
   /** Handle/username used in links or mentions */
   username: string
   bio: string

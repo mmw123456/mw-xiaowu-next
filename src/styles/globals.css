@@ -59,6 +59,9 @@
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
   --font-handwritten: var(--font-handwritten);
+  /* Name next to the avatar: Chinese Kai face, system Kai as fallback. */
+  --font-name: var(--font-name-kai), "LXGW WenKai", "Kaiti SC", "STKaiti",
+    "KaiTi", "Noto Serif CJK SC", serif;
   --font-heading: var(--font-sans);
 
   --default-mono-font-feature-settings: "ss11" 1, "zero" 1, "tnum" 1;

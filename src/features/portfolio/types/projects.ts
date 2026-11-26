@@ -5,6 +5,17 @@ export type Project = {
   /** Short plain-text introduction, visible even when the details are closed. */
   summary?: string
   /**
+   * Publication state shown as a small badge on the row.
+   * `live` = 已上线, `wip` = 进行中. Omit when the state is unknown — the row
+   * then shows no badge rather than a guessed one.
+   */
+  status?: "live" | "wip"
+  /**
+   * Bucket the Projects panel groups by. `ai` renders first under the AI
+   * heading, `other` renders after it; ungrouped projects fall into `other`.
+   */
+  group?: "ai" | "other"
+  /**
    * Project period for display and sorting.
    * Use "MM.YYYY" format. Omit `end` for ongoing projects.
    * Omit the whole field when the dates are unknown — the card then shows no

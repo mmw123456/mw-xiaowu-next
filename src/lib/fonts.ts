@@ -2,6 +2,7 @@ import {
   Archivo_Black,
   IBM_Plex_Serif,
   Instrument_Serif,
+  LXGW_WenKai_TC,
   Space_Grotesk,
 } from "next/font/google"
 import localFont from "next/font/local"
@@ -17,6 +18,22 @@ const fontSerif = IBM_Plex_Serif({
   weight: ["400"],
   display: "swap",
   variable: "--font-serif",
+})
+
+/**
+ * Name set next to the avatar. LXGW WenKai (霞鹜文楷) — a Kai/semi-cursive face
+ * with calligraphic stroke ends, which gives the name a hand-written warmth the
+ * default sans stack cannot. Google only publishes the Traditional-Chinese
+ * cut plus the three static weights 300/400/700; 400 is the one used, so the
+ * heading must stay `font-normal` or the browser will synthesise a fake bold.
+ * Google slices it into ~115 unicode-range chunks, so `preload` stays off: the
+ * browser only fetches the chunks the nickname actually needs.
+ */
+const fontName = LXGW_WenKai_TC({
+  weight: ["400"],
+  display: "swap",
+  variable: "--font-name-kai",
+  preload: false,
 })
 
 const fontEditorial = Instrument_Serif({
@@ -60,6 +77,7 @@ export const fontVariables = cn(
   fontEditorial.variable,
   fontDisplay.variable,
   fontTech.variable,
+  fontName.variable,
   "[--font-sans:var(--font-geist-sans)]",
   "[--font-mono:var(--font-geist-mono)]"
 )
