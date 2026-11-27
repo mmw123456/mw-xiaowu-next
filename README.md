@@ -92,7 +92,7 @@ AI 与爬虫可读的纯文本入口：`/llms.txt`、`/index.md`，以及每篇�
 镜像的三条硬约束（都是踩过的）：
 
 1. **发布按工作区绑定。** 只有从 `D:\ai-projects` 工作区发布才能覆盖上面那个 sharecode；从别的工作区发布会新建一个空应用，旧站不受影响，看起来像「部署成功但线上没变」。
-2. **构建期不联网拉字体。** 沙箱里拉 Google Fonts 会让 install 阶段超时失败（`SITES_INSTALL_FAILED`）。新增 Google 字体前先本地化（`next/font/local` + 自托管 woff2）。
+2. **构建期不联网拉字体。** 沙箱里拉 Google Fonts 有可能让 install 阶段超时失败（11-26 曾报 `SITES_INSTALL_FAILED`，但归因未证实；11-27 字体未改也通过了两次构建）。新增 Google 字体前先本地化（`next/font/local` + 自托管 woff2）。
 3. **`installCmd` 里的两个 `cp` 不能省。** `output: "standalone"` 的产物不带 `static` 和 `public`，漏了启动即 404：
 
 ```sh
