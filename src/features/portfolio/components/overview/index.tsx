@@ -1,5 +1,5 @@
 import { urlToName } from "@/utils/url"
-import { LinkIcon, MapPinIcon } from "lucide-react"
+import { ActivityIcon, LinkIcon, MapPinIcon } from "lucide-react"
 
 import { USER } from "@/features/portfolio/data/user"
 
@@ -21,6 +21,18 @@ export function Overview() {
       <h2 className="sr-only">Overview</h2>
 
       <PanelContent className="grid gap-x-4 gap-y-2.5 sm:grid-cols-2">
+        {USER.status && (
+          <IntroItem>
+            <IntroItemIcon>
+              <ActivityIcon />
+            </IntroItemIcon>
+            <IntroItemContent>
+              <span className="text-muted-foreground">Now: </span>
+              {USER.status}
+            </IntroItemContent>
+          </IntroItem>
+        )}
+
         {USER.jobs.map((job, index) => {
           return (
             <JobItem

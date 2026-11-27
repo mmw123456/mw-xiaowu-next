@@ -46,7 +46,7 @@ export function SocialLinks() {
                   }
                 />
                 <TooltipContent>
-                  {item.title} ({item.handle})
+                  {item.handle ? `${item.title} (${item.handle})` : item.title}
                 </TooltipContent>
               </Tooltip>
             </li>

@@ -2,7 +2,7 @@
 
 个人网站。首页展示个人介绍、GitHub 贡献热力图与最近的内容入口，另有项目、文章、收藏、作品、经历等页面。
 
-> **尚未发布。** 部署到 Vercel 后在项目设置里加 `NEXT_PUBLIC_APP_URL`，并同步改掉 `src/config/site.ts` 里的 `SITE_DOMAIN`（正文的绝对链接、JSON-LD、sitemap、OG 图都从这两处取值）。
+> **已上线。** 两处地址：Vercel 源站 <https://mw-xiaowu-next.vercel.app>（国内打不开）和国内镜像 <https://mw-xiaowu.app.workbuddy.host/?sharecode=OURL5YTUOC>（给国内访客）。`sharecode` 必须带，去掉返回 403。更新流程见下面的「部署」。
 
 ## 技术栈
 
@@ -69,6 +69,7 @@ AI 与爬虫可读的纯文本入口：`/llms.txt`、`/index.md`，以及每篇�
 | 收藏                                     | `src/features/bookmark/data.tsx`                                               |
 | 作品                                     | `src/features/craft/data.ts`                                                   |
 | 文章                                     | `src/features/doc/content/blog/*.mdx`                                          |
+| 站外文章 / 教程外链                      | `src/features/portfolio/data/writing.ts`                                       |
 | 头像与图标                               | `public/images/`、`public/*`                                                   |
 
 几个约定：
@@ -76,6 +77,32 @@ AI 与爬虫可读的纯文本入口：`/llms.txt`、`/index.md`，以及每篇�
 - **列表为空时整个区块不渲染。** 不想展示某个栏目，把对应数组清空即可，不会留下只有标题的空壳。
 - **日期、链接这类字段是选填的。** 项目没有公开链接、或不知道开始时间时，整个 `period` / `link` 字段省略即可，卡片会自动不显示那一项 —— 不要为了填满而编造。
 - **文章**用 MDX，frontmatter 需要 `title`、`description`、`createdAt`、`updatedAt`（`YYYY-MM-DD`）。分类由目录名决定，放在 `content/blog/` 下就是文章。
+
+## 部署
+
+两处线上地址，别混用：
+
+| 位置                | 地址                                                       | 怎么更新                                                                   |
+| ------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Vercel（源站）      | <https://mw-xiaowu-next.vercel.app>                        | 推 `main` 后手动跑 `deploy-vercel.yml`（只配了 `workflow_dispatch`，push 不触发） |
+| 国内镜像（给国内访客） | <https://mw-xiaowu.app.workbuddy.host/?sharecode=OURL5YTUOC> | 独立发布，**不跟 GitHub 自动同步**，见下                                   |
+
+`SITE_DOMAIN` 保持 Vercel 域名不动：镜像只是访问入口，不是 canonical，改它会把 sitemap、JSON-LD、OG 里的绝对链接全指到镜像上。
+
+镜像的三条硬约束（都是踩过的）：
+
+1. **发布按工作区绑定。** 只有从 `D:\ai-projects` 工作区发布才能覆盖上面那个 sharecode；从别的工作区发布会新建一个空应用，旧站不受影响，看起来像「部署成功但线上没变」。
+2. **构建期不联网拉字体。** 沙箱里拉 Google Fonts 会让 install 阶段超时失败（`SITES_INSTALL_FAILED`）。新增 Google 字体前先本地化（`next/font/local` + 自托管 woff2）。
+3. **`installCmd` 里的两个 `cp` 不能省。** `output: "standalone"` 的产物不带 `static` 和 `public`，漏了启动即 404：
+
+```sh
+npm install --legacy-peer-deps --no-audit --no-fund \
+  && npm run build \
+  && cp -r .next/static .next/standalone/.next/static \
+  && (cp -r public/. .next/standalone/public/ || true)
+```
+
+启动命令：`HOSTNAME=0.0.0.0 node .next/standalone/server.js`，端口 3000。
 
 ## 环境变量
 

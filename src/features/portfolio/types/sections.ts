@@ -5,6 +5,7 @@ export type PortfolioSection = {
     | "experience"
     | "education"
     | "projects"
+    | "writing"
     | "recognition"
     | "tools"
   title: string

@@ -86,6 +86,7 @@ const PORTFOLIO_ICONS: Record<PortfolioSection["id"], React.ReactElement> = {
   experience: <BriefcaseBusinessIcon />,
   education: <GraduationCapIcon />,
   projects: <BoxIcon />,
+  writing: <FileTextIcon />,
   recognition: <AwardIcon />,
   tools: <WrenchIcon />,
 }

@@ -14,6 +14,11 @@ export type User = {
   /** Handle/username used in links or mentions */
   username: string
   bio: string
+  /**
+   * One-line "what I'm doing now", rendered in the overview panel. Omitted when
+   * there is nothing worth announcing — the row is skipped rather than empty.
+   */
+  status?: string
   /** Short phrases rotated in UI (e.g., homepage flip effect) */
   flipSentences: string[]
   /** General location for display. Omitted when not public. */

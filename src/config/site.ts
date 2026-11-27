@@ -32,8 +32,9 @@ export const META_THEME_COLORS = {
 }
 
 /**
- * No X account, so the `twitter.site` / `twitter.creator` metadata fields stay
- * undefined and Next simply omits them.
+ * X is not linked yet — decided 2026-11-26 to hold off. While this stays
+ * undefined, the `twitter.site` / `twitter.creator` metadata fields are omitted
+ * rather than rendered empty.
  */
 export const X_HANDLE: string | undefined = undefined
 

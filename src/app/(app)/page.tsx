@@ -16,7 +16,9 @@ import { Projects } from "@/features/portfolio/components/projects"
 import { SocialLinks } from "@/features/portfolio/components/social-links"
 import { TechStack } from "@/features/portfolio/components/tech-stack"
 import { Tools } from "@/features/portfolio/components/tools"
+import { Writing } from "@/features/portfolio/components/writing"
 import { USER } from "@/features/portfolio/data/user"
+import { WRITING } from "@/features/portfolio/data/writing"
 
 export const metadata: Metadata = {
   alternates: {
@@ -53,6 +55,14 @@ export default function HomePage() {
             <Projects />
           </Suspense>
           <Separator />
+
+          {/* 没有文章时连分隔线一起省掉，避免多出一条空白条纹。 */}
+          {WRITING.length > 0 && (
+            <>
+              <Writing />
+              <Separator />
+            </>
+          )}
 
           <Tools />
         </div>

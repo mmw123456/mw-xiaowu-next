@@ -1,7 +1,7 @@
 {
   "short_name": "MW小屋",
   "name": "MW小屋",
-  "description": "记录做过的项目，任务进程等等。",
+  "description": "非科班大一，边学边做能用的 AI 小东西。",
   "icons": [
     {
       "src": "/favicon.svg",

@@ -16,6 +16,20 @@ export const SOCIAL = {
     href: "https://github.com/mmw123456",
     sameAs: true,
   },
+  // 两个平台给的都是 App「分享主页」生成短链，没有可读的 handle，所以不填。
+  // sameAs 也不开：短链会失效，写进 JSON-LD 一旦过期就是坏链接。
+  xiaohongshu: {
+    title: "小红书",
+    href: "https://xhslink.cn/o/825L8bGp9ZZ",
+  },
+  douyin: {
+    title: "抖音",
+    href: "https://v.douyin.com/MdYGw6I05jo/",
+  },
+
+  // X（Twitter）暂不挂 —— 用户 2026-11-26 明确「先不挂」。补齐时在这里加：
+  // x: { title: "X", handle: "<账号名>", href: "https://x.com/<账号名>" },
+  // 并同步 social-link-icons.tsx 和 config/site.ts 的 X_HANDLE。
 } satisfies Record<string, SocialProfile>
 
 export type SocialName = keyof typeof SOCIAL
